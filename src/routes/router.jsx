@@ -28,14 +28,6 @@ const router = createBrowserRouter([
       {
         path: "/news-details/:id",
         element: <NewsDetails />
-      },
-      {
-        path: "/sign-up",
-        element: <SignUp />
-      },
-      {
-        path: "/sign-in",
-        element: <SignIn />
       }
     ]
   },
@@ -64,6 +56,14 @@ const router = createBrowserRouter([
         element: <UpdateNews />
       }
     ]
+  },
+  {
+    path: "/sign-up",
+    element: <SignUp />
+  },
+  {
+    path: "/sign-in",
+    element: <SignIn />
   }
 ]);
 
