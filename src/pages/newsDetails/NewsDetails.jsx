@@ -30,7 +30,7 @@ const NewsDetails = () => {
     // userId,
     // userImg,
     // userName
-  } = singleNews;
+  } = singleNews || {};
 
   if (isLoading) {
     return <Loading />;
