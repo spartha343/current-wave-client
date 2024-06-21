@@ -2,13 +2,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import useGetSingleNewsById from "../../hooks/getSingleNewsById/useGetSingleNewsById";
 import Loading from "../../components/Loading";
 import useNewsCategories from "../../hooks/newsCategories/useNewsCategories";
+import axiosInstance from "../../axios/axiosInstance";
+import Swal from "sweetalert2";
 
 const UpdateNews = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: singleNews, isLoading } = useGetSingleNewsById(id);
   const { categories, isLoading: isCategoriesLoading } = useNewsCategories();
-
   const {
     _id,
     newsBody,
@@ -16,10 +17,13 @@ const UpdateNews = () => {
     categoryId,
     // newsImg,
     newsTitle
-    // userId,
     // userImg,
     // userName
-  } = singleNews;
+  } = singleNews ?? {};
+
+  if (isLoading || isCategoriesLoading) {
+    return <Loading />;
+  }
 
   const handleUpdateNews = (e) => {
     e.preventDefault();
@@ -29,44 +33,66 @@ const UpdateNews = () => {
     const newsBody = form.newsBody.value;
     const fileField = form.newsImg;
     const formData = new FormData();
-    formData.append("image", fileField.files[0]);
+    formData.append("file", fileField.files[0]);
+    const metadata = JSON.stringify({
+      name: "File name"
+    });
+    formData.append("pinataMetadata", metadata);
+    const options = JSON.stringify({
+      cidVersion: 0
+    });
+    formData.append("pinataOptions", options);
 
-    fetch(
-      `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGE_BB_KEY}`,
-      {
-        method: "POST",
-        body: formData
-      }
-    )
+    fetch(`https://api.pinata.cloud/pinning/pinFileToIPFS`, {
+      method: "POST",
+      body: formData
+    })
       .then((res) => res.json())
       .then((data) => {
-        const { display_url } = data.data;
         const updatedDoc = {
+          // fUserId,
           categoryId,
           newsTitle,
           newsBody,
-          newsImg: display_url
+          newsImg: `${import.meta.env.VITE_PINATA_GATEWAY_URL}/ipfs/${
+            data.IpfsHash
+          }`
         };
 
-        fetch(`https://current-wave-server.vercel.app/update-news/${_id}`, {
-          method: "PATCH",
-          headers: {
-            "content-type": "application/json"
-          },
-          body: JSON.stringify(updatedDoc)
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.matchedCount) {
-              navigate(`/categories/${data.categoryId}`);
-            }
-          });
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, update it!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            axiosInstance
+              .patch(
+                `https://current-wave.netlify.app/update-news/${_id}`,
+                updatedDoc,
+                {
+                  headers: {
+                    "content-type": "application/json"
+                  }
+                }
+              )
+              .then((data) => {
+                if (data.data.matchedCount) {
+                  Swal.fire({
+                    title: "Updated!",
+                    text: "Your file has been updated successfully.",
+                    icon: "success"
+                  });
+                  navigate(`/categories/${data.categoryId}`);
+                }
+              });
+          }
+        });
       });
   };
-
-  if (isLoading || isCategoriesLoading) {
-    return <Loading />;
-  }
 
   return (
     <div className="hero min-h-screen bg-base-200 w-full">

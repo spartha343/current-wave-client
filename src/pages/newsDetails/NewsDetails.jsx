@@ -1,14 +1,17 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
 import useGetSingleNewsById from "../../hooks/getSingleNewsById/useGetSingleNewsById";
+import { useEffect } from "react";
+import useSearchNews from "../../hooks/searchNews/useSearchNews";
 
 const NewsDetails = () => {
+  const { searchedNews, setSearchedNews } = useSearchNews();
   let { id } = useParams();
   const navigate = useNavigate();
   const { data: singleNews, isLoading } = useGetSingleNewsById(id);
 
   const handleDeleteNews = (id, categoryId) => {
-    fetch(`https://current-wave-server.vercel.app/delete-news/${id}`, {
+    fetch(`https://current-wave.netlify.app/delete-news/${id}`, {
       method: "DELETE"
     })
       .then((res) => res.json())
@@ -18,6 +21,10 @@ const NewsDetails = () => {
         }
       });
   };
+
+  useEffect(() => {
+    setSearchedNews([]);
+  }, [setSearchedNews, id]);
 
   const {
     categoryId,
@@ -34,6 +41,9 @@ const NewsDetails = () => {
 
   if (isLoading) {
     return <Loading />;
+  }
+  if (searchedNews.length) {
+    return <></>;
   }
   return (
     <div className="card bg-base-100 shadow-xl m-10 ">

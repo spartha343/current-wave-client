@@ -9,9 +9,7 @@ const AllUsers = () => {
   } = useQuery({
     queryKey: ["categoryNews"],
     queryFn: () =>
-      fetch(`https://current-wave-server.vercel.app/users`).then((res) =>
-        res.json()
-      )
+      fetch(`https://current-wave.netlify.app/users`).then((res) => res.json())
   });
 
   if (isLoading) {

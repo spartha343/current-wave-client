@@ -1,16 +1,18 @@
+import useSearchNews from "../../hooks/searchNews/useSearchNews";
+
 // eslint-disable-next-line react/prop-types
-const SearchBar = ({ setSearchResult }) => {
+const SearchBar = () => {
+  const { setSearchedNews } = useSearchNews();
   const handleSearch = (e) => {
     e.preventDefault();
     const form = e.target;
     const searchText = form.searchText.value;
-    fetch(
-      `https://current-wave-server.vercel.app/search-news/${searchText}`
-    ).then((res) =>
-      res.json().then((data) => {
-        setSearchResult(data);
-        form.reset();
-      })
+    fetch(`https://current-wave.netlify.app/search-news/${searchText}`).then(
+      (res) =>
+        res.json().then((data) => {
+          setSearchedNews(data);
+          form.reset();
+        })
     );
   };
   return (

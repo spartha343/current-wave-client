@@ -10,6 +10,7 @@ import ProtectedRoute from "./protectedRoutes/ProtectedRoutes";
 import AllUsers from "../pages/allUsers/AllUsers";
 import PostNews from "../pages/postNews/PostNews";
 import UpdateNews from "../pages/updateNews/UpdateNews";
+import UpdateUserProfile from "../pages/updateUserProfile/UpdateUserProfile";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "user-profile",
         element: <UserProfile />
+      },
+      {
+        path: "update-user-profile/:id",
+        element: <UpdateUserProfile />
       },
       {
         path: "all-users",

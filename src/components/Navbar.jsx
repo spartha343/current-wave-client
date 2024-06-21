@@ -9,7 +9,9 @@ const Navbar = () => {
   const { signTheUserOut, user } = useAuthInfo();
   const handleSignOut = () => {
     signTheUserOut()
-      .then(() => {})
+      .then(() => {
+        localStorage.removeItem("token");
+      })
       .catch((error) => console.log(error));
   };
 

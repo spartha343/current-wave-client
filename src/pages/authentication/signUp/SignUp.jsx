@@ -20,33 +20,42 @@ const SignUp = () => {
 
     const fileField = form.image;
     const formData = new FormData();
-    formData.append("image", fileField.files[0]);
+    formData.append("file", fileField.files[0]);
+    const metadata = JSON.stringify({
+      name: "File name"
+    });
+    formData.append("pinataMetadata", metadata);
+    const options = JSON.stringify({
+      cidVersion: 0
+    });
+    formData.append("pinataOptions", options);
+
     signUpWithEmailAndPass(email, password)
       .then((result) => {
         const { uid } = result.user;
-        fetch(
-          `https://api.imgbb.com/1/upload?key=${
-            import.meta.env.VITE_IMAGE_BB_KEY
-          }`,
-          {
-            method: "POST",
-            body: formData
+        fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_PINATA_API_KEY_JWT}`
           }
-        )
+        })
           .then((res) => res.json())
-          .then(({ data }) => {
-            const { display_url } = data;
+          .then((data) => {
             updateUserProfile({
               displayName: name,
-              photoURL: display_url
+              photoURL: `${import.meta.env.VITE_PINATA_GATEWAY_URL}/ipfs/${
+                data.IpfsHash
+              }`
             })
               .then(() => {
-                console.log("storing data in mongo DB");
                 storeUserInDB({
                   fUserId: uid,
                   userName: name,
                   userEmail: email,
-                  userImg: display_url,
+                  userImg: `${import.meta.env.VITE_PINATA_GATEWAY_URL}/ipfs/${
+                    data.IpfsHash
+                  }`,
                   role: ""
                 });
                 navigate(from);

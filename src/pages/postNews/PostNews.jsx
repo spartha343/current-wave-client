@@ -2,6 +2,8 @@ import Loading from "../../components/Loading";
 import useNewsCategories from "../../hooks/newsCategories/useNewsCategories";
 import { useNavigate } from "react-router-dom";
 import useGetMongoUserByFuid from "../../hooks/getMongoUserByFuid/useGetMongoUserByFuid";
+import Swal from "sweetalert2";
+import axiosInstance from "../../axios/axiosInstance";
 
 const PostNews = () => {
   const { categories, isLoading } = useNewsCategories();
@@ -19,46 +21,62 @@ const PostNews = () => {
     const categoryId = parseInt(form.category.value);
     const newsTitle = form.newsTitle.value;
     const newsBody = form.newsBody.value;
-    const { _id, userName, userImg } = data;
+    const { _id, userName, userImg, fUserId } = data;
     const fileField = form.newsImg;
     const formData = new FormData();
-    formData.append("image", fileField.files[0]);
-    fetch(
-      `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGE_BB_KEY}`,
-      {
-        method: "POST",
-        body: formData
+    formData.append("file", fileField.files[0]);
+    const metadata = JSON.stringify({
+      name: "File name"
+    });
+    formData.append("pinataMetadata", metadata);
+    const options = JSON.stringify({
+      cidVersion: 0
+    });
+    formData.append("pinataOptions", options);
+    fetch(`https://api.pinata.cloud/pinning/pinFileToIPFS`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_PINATA_API_KEY_JWT}`
       }
-    )
+    })
       .then((res) => res.json())
       .then((data) => {
-        const { display_url } = data.data;
-        console.log(display_url);
         const date = new Date().getTime();
         const newsData = {
-          newsImg: display_url,
+          newsImg: `${import.meta.env.VITE_PINATA_GATEWAY_URL}/ipfs/${
+            data.IpfsHash
+          }`,
           userId: _id,
           userName,
           userImg,
           categoryId,
           newsTitle,
           newsBody,
-          date
+          date,
+          fUserId
         };
-        fetch("https://current-wave-server.vercel.app/post-news", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json"
-          },
-          body: JSON.stringify(newsData)
-        })
-          .then((res) => res.json())
+        axiosInstance
+          .post("/post-news", newsData, {
+            headers: {
+              "content-type": "application/json"
+            }
+          })
           .then((data) => {
-            if (data.insertedId) {
+            if (data.data.insertedId) {
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "News Posted Successfully",
+                showConfirmButton: false,
+                timer: 1500
+              });
               navigate(`/categories/${categoryId}`);
             }
-          });
-      });
+          })
+          .catch((error) => console.log(error));
+      })
+      .catch((error) => console.log(error));
   };
   return (
     <div className="hero min-h-screen bg-base-200 w-full">

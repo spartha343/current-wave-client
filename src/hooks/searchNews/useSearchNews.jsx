@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { NewsContext } from "../../searchNewsProvider/SearchNewsProvider";
+import { SearchNewsContext } from "../../searchNewsProvider/SearchNewsProvider";
 
 const useSearchNews = () => {
-  const data = useContext(NewsContext);
-  return data;
+  const { searchedNews, setSearchedNews } = useContext(SearchNewsContext);
+  return { searchedNews, setSearchedNews };
 };
 
 export default useSearchNews;

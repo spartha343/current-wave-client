@@ -6,7 +6,8 @@ import useSearchNews from "../../hooks/searchNews/useSearchNews";
 import { useEffect } from "react";
 
 const AllNews = () => {
-  const { searchResult, setSearchResult } = useSearchNews();
+  const { searchedNews, setSearchedNews } = useSearchNews();
+
   let { id } = useParams();
   if (!id) {
     id = 0;
@@ -15,22 +16,19 @@ const AllNews = () => {
   const { data: categoryNews, isLoading } = useQuery({
     queryKey: ["categoryNews", id],
     queryFn: () =>
-      fetch(`https://current-wave-server.vercel.app/categories/${id}`).then(
-        (res) => {
-          return res.json();
-        }
-      )
+      fetch(`https://current-wave.netlify.app/categories/${id}`).then((res) => {
+        return res.json();
+      })
   });
 
   useEffect(() => {
-    setSearchResult(null);
-  }, [id, setSearchResult]);
+    setSearchedNews([]);
+  }, [setSearchedNews, categoryNews]);
 
   if (isLoading) {
     return <Loading />;
   }
-
-  if (searchResult?.length) {
+  if (searchedNews.length) {
     return <></>;
   }
 

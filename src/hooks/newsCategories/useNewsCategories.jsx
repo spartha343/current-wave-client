@@ -4,7 +4,7 @@ const useNewsCategories = () => {
   const { data: categories, isLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: () =>
-      fetch("https://current-wave-server.vercel.app/categories").then((res) =>
+      fetch("https://current-wave.netlify.app/categories").then((res) =>
         res.json()
       )
   });

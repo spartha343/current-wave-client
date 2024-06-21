@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import useAuthInfo from "../../../hooks/authInfo/useAuthInfo";
 import useGoogleSignIn from "../../../hooks/googleSignIn/useGoogleSignIn";
+import useStoreUserInDB from "../../../hooks/storeUserInDB/useStoreUserInDB";
 
 const SignIn = () => {
+  const storeUserInDB = useStoreUserInDB();
   const googleSignIn = useGoogleSignIn();
-  //   const storeUserInDB = useStoreUserToDB();
   const { signInWithEmailAndPass } = useAuthInfo();
   const handleSignInUsingEmailAndPass = (e) => {
     e.preventDefault();
@@ -13,8 +14,16 @@ const SignIn = () => {
     const password = form.password.value;
     signInWithEmailAndPass(email, password)
       .then((result) => {
-        console.log(result.user);
-        // storeUserInDB(result.user);
+        const { displayName, email, photoURL, uid } = result.user;
+
+        //just to get the JWT token from back end
+        storeUserInDB({
+          fUserId: uid,
+          userName: displayName,
+          userEmail: email,
+          userImg: photoURL,
+          role: ""
+        });
       })
       .catch((error) => console.log(error));
   };

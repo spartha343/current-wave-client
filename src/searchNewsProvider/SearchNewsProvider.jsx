@@ -1,13 +1,15 @@
 import { createContext, useState } from "react";
 
-export const NewsContext = createContext(null);
+export const SearchNewsContext = createContext([]);
 
 // eslint-disable-next-line react/prop-types
 const SearchNewsProvider = ({ children }) => {
-  const [searchResult, setSearchResult] = useState(null);
-  const value = { searchResult, setSearchResult };
-
-  return <NewsContext.Provider value={value}>{children}</NewsContext.Provider>;
+  const [searchedNews, setSearchedNews] = useState([]);
+  return (
+    <SearchNewsContext.Provider value={{ searchedNews, setSearchedNews }}>
+      {children}
+    </SearchNewsContext.Provider>
+  );
 };
 
 export default SearchNewsProvider;
