@@ -1,21 +1,29 @@
 import { FaUserAlt } from "react-icons/fa";
 import { ImUsers } from "react-icons/im";
-import { MdLocalPostOffice } from "react-icons/md";
+import { MdLocalPostOffice, MdOutlineArrowBackIosNew } from "react-icons/md";
+import { RiMenu3Line } from "react-icons/ri";
 import { TbArrowBack } from "react-icons/tb";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 
 const DashboardLayout = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center justify-center">
           {/* Page content here */}
+          <button
+            onClick={() => navigate(-1)}
+            className="btn lg:hidden left-3 top-3 absolute"
+          >
+            <MdOutlineArrowBackIosNew size={20} />
+          </button>
           <label
             htmlFor="my-drawer-2"
-            className="btn btn-outline drawer-button lg:hidden right-3 top-3 absolute"
+            className="btn drawer-button lg:hidden right-3 top-3 absolute"
           >
-            Menu
+            <RiMenu3Line size={20} />
           </label>
           <div className="mt-16 lg:mt-0">
             <Outlet />
