@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import Loading from "./Loading";
 import useAuthInfo from "../hooks/authInfo/useAuthInfo";
 import useNewsCategories from "../hooks/newsCategories/useNewsCategories";
+import { GiStaticWaves } from "react-icons/gi";
 
 const Navbar = () => {
   const { categories, isLoading } = useNewsCategories();
@@ -56,7 +57,8 @@ const Navbar = () => {
             {navItems}
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost text-xl hidden md:inline-block">
+        <Link to="/" className="btn btn-ghost text-xl hidden md:flex">
+          <GiStaticWaves />
           Current Wave
         </Link>
       </div>

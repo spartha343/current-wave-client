@@ -3,6 +3,9 @@ import Loading from "../../components/Loading";
 import useGetSingleNewsById from "../../hooks/getSingleNewsById/useGetSingleNewsById";
 import { useEffect } from "react";
 import useSearchNews from "../../hooks/searchNews/useSearchNews";
+import { RiDeleteBin2Line } from "react-icons/ri";
+import { GrDocumentUpdate } from "react-icons/gr";
+import { IoChevronBackOutline } from "react-icons/io5";
 
 const NewsDetails = () => {
   const { searchedNews, setSearchedNews } = useSearchNews();
@@ -58,15 +61,20 @@ const NewsDetails = () => {
             className="btn btn-primary btn-sm"
             onClick={() => navigate(-1)}
           >
+            <IoChevronBackOutline />
             Go Back
           </button>
           <Link to={`/dashboard/update-news/${_id}`}>
-            <button className="btn btn-secondary btn-sm">Update</button>
+            <button className="btn btn-secondary btn-sm">
+              <GrDocumentUpdate />
+              Update
+            </button>
           </Link>
           <button
             className="btn btn-error btn-sm"
             onClick={() => handleDeleteNews(_id, categoryId)}
           >
+            <RiDeleteBin2Line />
             Delete
           </button>
         </div>

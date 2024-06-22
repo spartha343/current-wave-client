@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useGetMongoUserByFuid from "../../hooks/getMongoUserByFuid/useGetMongoUserByFuid";
 import Swal from "sweetalert2";
 import axiosInstance from "../../axios/axiosInstance";
+import { SiPostmates } from "react-icons/si";
 
 const PostNews = () => {
   const { categories, isLoading } = useNewsCategories();
@@ -130,7 +131,10 @@ const PostNews = () => {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-primary">Post Now</button>
+              <button className="btn btn-primary">
+                <SiPostmates size={25} />
+                Post Now
+              </button>
             </div>
           </form>
         </div>

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import useGetMongoUserByFuid from "../../hooks/getMongoUserByFuid/useGetMongoUserByFuid";
+import { RxUpdate } from "react-icons/rx";
 
 const UserProfile = () => {
   const { data } = useGetMongoUserByFuid();
@@ -19,6 +20,7 @@ const UserProfile = () => {
         {userEmail && <p className="text-3xl font-light">{userEmail}</p>}
         <Link to={`/dashboard/update-user-profile/${fUserId}`}>
           <button className="btn btn-outline w-full mt-5">
+            <RxUpdate size={20} />
             Update Your Profile
           </button>
         </Link>

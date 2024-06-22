@@ -1,3 +1,7 @@
+import { FaUserAlt } from "react-icons/fa";
+import { ImUsers } from "react-icons/im";
+import { MdLocalPostOffice } from "react-icons/md";
+import { TbArrowBack } from "react-icons/tb";
 import { Link, NavLink, Outlet } from "react-router-dom";
 
 const DashboardLayout = () => {
@@ -27,17 +31,29 @@ const DashboardLayout = () => {
             {/* Sidebar content here */}
             <div>
               <li>
-                <NavLink to="/dashboard/user-profile">User Profile</NavLink>
+                <NavLink to="/dashboard/user-profile">
+                  <FaUserAlt />
+                  User Profile
+                </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/all-users">All Users</NavLink>
+                <NavLink to="/dashboard/all-users">
+                  <ImUsers size={18} />
+                  All Users
+                </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/post-news">Post News</NavLink>
+                <NavLink to="/dashboard/post-news">
+                  <MdLocalPostOffice size={17} />
+                  Post News
+                </NavLink>
               </li>
             </div>
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/">
+                <TbArrowBack size={25} />
+                Home
+              </Link>
             </li>
           </ul>
         </div>

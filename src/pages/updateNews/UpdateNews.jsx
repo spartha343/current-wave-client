@@ -4,6 +4,7 @@ import Loading from "../../components/Loading";
 import useNewsCategories from "../../hooks/newsCategories/useNewsCategories";
 import axiosInstance from "../../axios/axiosInstance";
 import Swal from "sweetalert2";
+import { MdOutlineUpdate } from "react-icons/md";
 
 const UpdateNews = () => {
   const { id } = useParams();
@@ -154,7 +155,10 @@ const UpdateNews = () => {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-primary">Update Now</button>
+              <button className="btn btn-primary">
+                <MdOutlineUpdate size={20} />
+                Update Now
+              </button>
             </div>
           </form>
         </div>
