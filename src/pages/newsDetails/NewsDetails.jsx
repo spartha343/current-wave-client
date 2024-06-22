@@ -46,13 +46,13 @@ const NewsDetails = () => {
     return <></>;
   }
   return (
-    <div className="card bg-base-100 shadow-xl m-10 ">
+    <div className="card bg-base-100 shadow-xl  md:m-10 ">
       <figure className="px-10 pt-10">
         <img src={newsImg} alt="Shoes" className="rounded-xl" />
       </figure>
       <div className="card-body items-center text-center">
         <h2 className="card-title">{newsTitle}</h2>
-        <p>{newsBody}</p>
+        <p className="text-justify">{newsBody}</p>
         <div className="card-actions">
           <button
             className="btn btn-primary btn-sm"

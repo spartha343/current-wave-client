@@ -56,7 +56,7 @@ const Navbar = () => {
             {navItems}
           </ul>
         </div>
-        <Link to="/" className="btn btn-ghost text-xl">
+        <Link to="/" className="btn btn-ghost text-xl hidden md:inline-block">
           Current Wave
         </Link>
       </div>

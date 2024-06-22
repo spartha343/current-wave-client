@@ -6,7 +6,7 @@ const UserProfile = () => {
   const { userEmail, userImg, userName, fUserId } = data || {};
 
   return (
-    <div className="flex items-center gap-10">
+    <div className="flex flex-col md:flex-row items-center gap-10">
       {userImg && (
         <div className="avatar">
           <div className="max-w-[20vw] mask mask-squircle">

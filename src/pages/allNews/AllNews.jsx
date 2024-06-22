@@ -35,7 +35,7 @@ const AllNews = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 m-10">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 m-4 md:m-10">
       {categoryNews?.length &&
         categoryNews?.map((singleNews) => (
           <SingleNews key={singleNews._id} singleNews={singleNews} />
