@@ -1,6 +1,6 @@
 const useStoreUserInDB = () => {
   return (user) => {
-    fetch("https://current-wave.netlify.app/users/", {
+    fetch("https://current-wave-server.vercel.app/users/", {
       method: "POST",
       headers: {
         "content-type": "application/json"

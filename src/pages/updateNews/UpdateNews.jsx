@@ -71,7 +71,7 @@ const UpdateNews = () => {
           if (result.isConfirmed) {
             axiosInstance
               .patch(
-                `https://current-wave.netlify.app/update-news/${_id}`,
+                `https://current-wave-server.vercel.app/update-news/${_id}`,
                 updatedDoc,
                 {
                   headers: {

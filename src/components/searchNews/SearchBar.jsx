@@ -7,12 +7,13 @@ const SearchBar = () => {
     e.preventDefault();
     const form = e.target;
     const searchText = form.searchText.value;
-    fetch(`https://current-wave.netlify.app/search-news/${searchText}`).then(
-      (res) =>
-        res.json().then((data) => {
-          setSearchedNews(data);
-          form.reset();
-        })
+    fetch(
+      `https://current-wave-server.vercel.app/search-news/${searchText}`
+    ).then((res) =>
+      res.json().then((data) => {
+        setSearchedNews(data);
+        form.reset();
+      })
     );
   };
   return (

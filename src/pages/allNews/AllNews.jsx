@@ -16,9 +16,11 @@ const AllNews = () => {
   const { data: categoryNews, isLoading } = useQuery({
     queryKey: ["categoryNews", id],
     queryFn: () =>
-      fetch(`https://current-wave.netlify.app/categories/${id}`).then((res) => {
-        return res.json();
-      })
+      fetch(`https://current-wave-server.vercel.app/categories/${id}`).then(
+        (res) => {
+          return res.json();
+        }
+      )
   });
 
   useEffect(() => {

@@ -11,7 +11,7 @@ const NewsDetails = () => {
   const { data: singleNews, isLoading } = useGetSingleNewsById(id);
 
   const handleDeleteNews = (id, categoryId) => {
-    fetch(`https://current-wave.netlify.app/delete-news/${id}`, {
+    fetch(`https://current-wave-server.vercel.app/delete-news/${id}`, {
       method: "DELETE"
     })
       .then((res) => res.json())
